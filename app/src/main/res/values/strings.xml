@@ -1,4 +1,14 @@
 <resources>
     <string name="app_name">Food Odering System</string>
     <string name="food_logo">Food Logo</string>
+
+    <string name="email_label">Email Address</string>
+    <string name="email_hint">Enter your email address</string>
+
+    <string name="password_label">Password</string>
+    <string name="password_hint">Enter your password</string>
+
+    <string name="forgot_pass">Forgot Password?</string>
+
+    <string name="user_agreement">I have read and agreed to the User Agreement and Privacy Policy</string>
 </resources>
