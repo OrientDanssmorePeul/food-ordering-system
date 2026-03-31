@@ -168,13 +168,12 @@
             android:textColor="#FFFFFF"
             android:textStyle="bold"
             android:textSize="16sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center_horizontal"
-            android:layout_marginTop="24dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="24dp">
 
         <TextView
             android:id="@+id/tvOtherWays"
@@ -221,7 +220,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Already have an Account? "
+                android:text="Already have an account?"
                 android:textSize="14sp"
                 android:textColor="#999999" />
 
@@ -229,11 +228,11 @@
                 android:id="@+id/tvSignUp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sign In"
+                android:text="Sign Up"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:textColor="#FF3B30" />
         </LinearLayout>
-        </LinearLayout>
+    </LinearLayout>
     </LinearLayout>
 </ScrollView>
