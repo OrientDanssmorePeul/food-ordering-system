@@ -1,118 +1,88 @@
 package com.example.foododeringsystem
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Patterns
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.textfield.TextInputEditText
+import androidx.appcompat.widget.AppCompatButton
+import android.widget.ImageButton
 
 class SignUpActivity : AppCompatActivity() {
 
-    private lateinit var etEmail: EditText
-    private lateinit var etPassword: EditText
-    private lateinit var etConfirmPassword: EditText
-    private lateinit var btnSignUp: Button
-    private lateinit var btnTogglePassword: ImageButton
-    private lateinit var btnToggleConfirmPassword: ImageButton
+    private lateinit var etName: TextInputEditText
+    private lateinit var etPhone: TextInputEditText
+    private lateinit var etEmail: TextInputEditText
+    private lateinit var etPassword: TextInputEditText
+    private lateinit var etConfirmPassword: TextInputEditText
+    private lateinit var btnSignUp: AppCompatButton
 
-    private var isPasswordVisible = false
-    private var isConfirmPasswordVisible = false
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.sign_up)
 
+        etName = findViewById(R.id.etName)
+        etPhone = findViewById(R.id.etPhone)
         etEmail = findViewById(R.id.etEmail)
         etPassword = findViewById(R.id.etPassword)
         etConfirmPassword = findViewById(R.id.etConfirmPassword)
         btnSignUp = findViewById(R.id.btnSignUp)
-        btnTogglePassword = findViewById(R.id.btnTogglePassword)
-        btnToggleConfirmPassword = findViewById(R.id.btnToggleConfirmPassword)
+
+
+        val btnBack = findViewById<ImageButton>(R.id.btnBack)
+        btnBack.setOnClickListener {
+            finish()
+        }
+
+        sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE)
 
         btnSignUp.setOnClickListener {
-            signUpUser()
-        }
-
-        btnTogglePassword.setOnClickListener {
-            togglePassword()
-        }
-
-        btnToggleConfirmPassword.setOnClickListener {
-            toggleConfirmPassword()
+            registerUser()
         }
     }
 
-    private fun signUpUser() {
+    private fun registerUser() {
+        val name = etName.text.toString().trim()
+        val phone = etPhone.text.toString().trim()
         val email = etEmail.text.toString().trim()
         val password = etPassword.text.toString().trim()
         val confirmPassword = etConfirmPassword.text.toString().trim()
 
-        when {
-            email.isEmpty() -> {
-                etEmail.error = "Email is required"
-                etEmail.requestFocus()
-            }
-
-            !Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
-                etEmail.error = "Enter a valid email"
-                etEmail.requestFocus()
-            }
-
-            password.isEmpty() -> {
-                etPassword.error = "Password is required"
-                etPassword.requestFocus()
-            }
-
-            password.length < 6 -> {
-                etPassword.error = "Password must be at least 6 characters"
-                etPassword.requestFocus()
-            }
-
-            confirmPassword.isEmpty() -> {
-                etConfirmPassword.error = "Please confirm your password"
-                etConfirmPassword.requestFocus()
-            }
-
-            password != confirmPassword -> {
-                etConfirmPassword.error = "Passwords do not match"
-                etConfirmPassword.requestFocus()
-            }
-
-            else -> {
-                Toast.makeText(this, "Sign up successful", Toast.LENGTH_SHORT).show()
-
-                // 如果你要跳去 Sign In page，就打开这个
-                // val intent = Intent(this, SignInActivity::class.java)
-                // startActivity(intent)
-                // finish()
-            }
+        if (name.isEmpty() || phone.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
+            return
         }
-    }
 
-    private fun togglePassword() {
-        if (isPasswordVisible) {
-            etPassword.inputType =
-                android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
-        } else {
-            etPassword.inputType =
-                android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(this, "Invalid email format", Toast.LENGTH_SHORT).show()
+            return
         }
-        etPassword.setSelection(etPassword.text.length)
-        isPasswordVisible = !isPasswordVisible
-    }
 
-    private fun toggleConfirmPassword() {
-        if (isConfirmPasswordVisible) {
-            etConfirmPassword.inputType =
-                android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
-        } else {
-            etConfirmPassword.inputType =
-                android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+        if (password.length < 6) {
+            Toast.makeText(this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show()
+            return
         }
-        etConfirmPassword.setSelection(etConfirmPassword.text.length)
-        isConfirmPasswordVisible = !isConfirmPasswordVisible
+
+        if (password != confirmPassword) {
+            Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val editor = sharedPreferences.edit()
+        editor.putString("name", name)
+        editor.putString("phone", phone)
+        editor.putString("email", email)
+        editor.putString("password", password)
+        editor.apply()
+
+        Toast.makeText(this, "Sign up successful", Toast.LENGTH_SHORT).show()
+
+        val intent = Intent(this, SignInActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }
