@@ -11,4 +11,10 @@
     <string name="forgot_pass">Forgot Password?</string>
 
     <string name="user_agreement">I have read and agreed to the User Agreement and Privacy Policy</string>
+
+    <string name="foodImage">Food Image</string>
+    <string name="headerOption">Customize</string>
+    <string name="minus_btn">Minus</string>
+    <string name="plus_btn">Plus</string>
+    <string name="go_back">Go Back</string>
 </resources>
