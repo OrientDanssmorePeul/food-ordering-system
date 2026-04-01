@@ -24,13 +24,12 @@
             android:contentDescription="@string/food_logo"
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/chatgpt_image_2026330_10_38_35" />
-
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/cardSignIn"
         android:layout_width="0dp"
-        android:layout_height="550dp"
+        android:layout_height="585dp"
         android:background="@drawable/rounded_white_bg"
         android:orientation="vertical"
         android:padding="40dp"
